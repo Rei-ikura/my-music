@@ -616,6 +616,55 @@ input:focus {
     background: #f6d0bd;
 }
 
+:root {
+    --theme-bg: #090b10;
+    --theme-card: #151820;
+    --theme-section: #101218;
+    --theme-hover: #222631;
+    --theme-active: #2b3140;
+    --theme-border: #292e38;
+    --theme-input: #0c0e13;
+}
+
+body {
+    background: var(--theme-bg);
+}
+
+.app {
+    background: var(--theme-card);
+}
+
+.header {
+    background:
+        linear-gradient(
+            135deg,
+            var(--theme-accent, #353d55),
+            var(--theme-card)
+        );
+}
+
+.section {
+    border-top-color: var(--theme-border);
+}
+
+input {
+    background: var(--theme-input);
+    border-color: var(--theme-border);
+}
+
+.song:hover {
+    background: var(--theme-hover);
+}
+
+.song.active {
+    background: var(--theme-active);
+}
+
+.clip-box,
+.backup {
+    background: var(--theme-section);
+}
+
 </style>
 
 </head>
@@ -3427,39 +3476,82 @@ document.head.appendChild(
 
     function setTheme(theme) {
 
-    const themes = {
+const themes = {
 
-        pink: {
-            accent: "#f7c8d8",
-            accentText: "#3a2830"
-        },
+    pink: {
+        accent: "#f7c8d8",
+        accentText: "#3a2830",
+        bg: "#fff5f8",
+        card: "#fffafd",
+        section: "#fff0f5",
+        hover: "#fde3ec",
+        active: "#fbd5e2",
+        border: "#f1d2dc",
+        input: "#fff8fa"
+    },
 
-        purple: {
-            accent: "#d8c9f2",
-            accentText: "#30283b"
-        },
+    purple: {
+        accent: "#d8c9f2",
+        accentText: "#30283b",
+        bg: "#f8f5fd",
+        card: "#fcfaff",
+        section: "#f3eefb",
+        hover: "#e9def8",
+        active: "#e0d2f3",
+        border: "#ddd0eb",
+        input: "#faf8fd"
+    },
 
-        blue: {
-            accent: "#c5e3f6",
-            accentText: "#263640"
-        },
+    blue: {
+        accent: "#c5e3f6",
+        accentText: "#263640",
+        bg: "#f3f9fd",
+        card: "#fbfdff",
+        section: "#eaf5fb",
+        hover: "#dceef8",
+        active: "#d0e8f5",
+        border: "#cfe1eb",
+        input: "#f8fcff"
+    },
 
-        green: {
-            accent: "#c9e6d0",
-            accentText: "#26382c"
-        },
+    green: {
+        accent: "#c9e6d0",
+        accentText: "#26382c",
+        bg: "#f4faf5",
+        card: "#fcfffc",
+        section: "#eaf6ed",
+        hover: "#dcefe1",
+        active: "#d1e8d7",
+        border: "#cfe2d3",
+        input: "#f9fdfa"
+    },
 
-        yellow: {
-            accent: "#f5e6ad",
-            accentText: "#3a3522"
-        },
+    yellow: {
+        accent: "#f5e6ad",
+        accentText: "#3a3522",
+        bg: "#fffdf4",
+        card: "#fffefa",
+        section: "#faf4d9",
+        hover: "#f8edc6",
+        active: "#f4e6b5",
+        border: "#eadfb9",
+        input: "#fffef9"
+    },
 
-        peach: {
-            accent: "#f6d0bd",
-            accentText: "#3b2c26"
-        }
+    peach: {
+        accent: "#f6d0bd",
+        accentText: "#3b2c26",
+        bg: "#fff7f3",
+        card: "#fffdfb",
+        section: "#fdf0e9",
+        hover: "#f9e0d3",
+        active: "#f5d6c6",
+        border: "#ecd5c9",
+        input: "#fffaf7"
+    }
 
-    };
+};
+
 
 
     const selected =
@@ -3474,6 +3566,41 @@ document.head.appendChild(
         "--theme-accent",
         selected.accent
     );
+
+    document.documentElement.style.setProperty(
+    "--theme-bg",
+    selected.bg
+);
+
+document.documentElement.style.setProperty(
+    "--theme-card",
+    selected.card
+);
+
+document.documentElement.style.setProperty(
+    "--theme-section",
+    selected.section
+);
+
+document.documentElement.style.setProperty(
+    "--theme-hover",
+    selected.hover
+);
+
+document.documentElement.style.setProperty(
+    "--theme-active",
+    selected.active
+);
+
+document.documentElement.style.setProperty(
+    "--theme-border",
+    selected.border
+);
+
+document.documentElement.style.setProperty(
+    "--theme-input",
+    selected.input
+);
 
     document.documentElement.style.setProperty(
         "--theme-accent-text",

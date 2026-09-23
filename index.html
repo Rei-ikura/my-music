@@ -3826,35 +3826,57 @@ function showTab(tab) {
         document.getElementById("playlistTab");
 
 
-    if (tab === "player") {
+    sections.forEach(function(section) {
 
-        player.style.display = "";
+        const title =
+            section.querySelector(".title");
 
-        sections.forEach(function(section) {
-
-            const title =
-                section.querySelector(".title");
-
-           if (
-    title &&
-    (
-        title.textContent.includes("PLAYLIST") ||
-        title.textContent.includes("テーマカラー")
-    )
-) {
-
-    section.style.display = "none";
-
-}
+        const text =
+            title
+            ? title.textContent.trim()
+            : "";
 
 
-            else {
+        if (tab === "player") {
+
+            if (
+                text.includes("PLAYLIST") ||
+                text.includes("テーマカラー")
+            ) {
+
+                section.style.display = "none";
+
+            } else {
 
                 section.style.display = "";
 
             }
 
-        });
+        }
+
+
+        if (tab === "playlist") {
+
+            if (
+                text.includes("YouTubeを追加")
+            ) {
+
+                section.style.display = "none";
+
+            } else {
+
+                section.style.display = "";
+
+            }
+
+        }
+
+    });
+
+
+    if (tab === "player") {
+
+        player.style.display = "";
 
         playerTab.classList.add("active");
         playlistTab.classList.remove("active");
@@ -3866,34 +3888,13 @@ function showTab(tab) {
 
         player.style.display = "none";
 
-        sections.forEach(function(section) {
-
-            const title =
-                section.querySelector(".title");
-
-            if (
-                title &&
-                title.textContent.includes("YouTubeを追加")
-            ) {
-
-                section.style.display = "none";
-
-            }
-
-            else {
-
-                section.style.display = "";
-
-            }
-
-        });
-
         playerTab.classList.remove("active");
         playlistTab.classList.add("active");
 
     }
 
 }
+
     
 </script>
 

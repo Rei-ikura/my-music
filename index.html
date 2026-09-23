@@ -1,0 +1,3140 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #090b10;
+    color: white;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+.app {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: #151820;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.45);
+}
+
+.header {
+    padding: 25px;
+    background:
+        linear-gradient(
+            135deg,
+            #353d55,
+            #15171d
+        );
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.subtitle {
+    color: #9299aa;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.player {
+    padding: 24px;
+}
+
+.video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#yt {
+    width: 100%;
+    height: 100%;
+}
+
+.now-title {
+    font-size: 21px;
+    font-weight: 800;
+    margin-top: 16px;
+}
+
+.now-time {
+    color: #8992a4;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.progress {
+    width: 100%;
+    accent-color: white;
+    margin-top: 12px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.control {
+    width: 45px;
+    height: 45px;
+    border: 0;
+    border-radius: 50%;
+    background: #303642;
+    color: white;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.control.main {
+    width: 58px;
+    height: 58px;
+    background: white;
+    color: #111;
+    font-size: 22px;
+}
+
+.section {
+    padding: 24px;
+    border-top: 1px solid #292e38;
+}
+
+.title {
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 13px;
+}
+
+.url-row {
+    display: flex;
+    gap: 8px;
+}
+
+input {
+    background: #0c0e13;
+    color: white;
+    border: 1px solid #363d4b;
+    border-radius: 9px;
+    padding: 12px;
+    outline: none;
+}
+
+input:focus {
+    border-color: #778197;
+}
+
+.url {
+    flex: 1;
+}
+
+.button {
+    border: 0;
+    border-radius: 9px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.white {
+    background: white;
+    color: #111;
+}
+
+.gray {
+    background: #303642;
+    color: white;
+}
+
+.status {
+    margin-top: 9px;
+    color: #828b9d;
+    font-size: 12px;
+}
+
+.add-buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.clip-box {
+    margin-top: 18px;
+    padding: 17px;
+    background: #101218;
+    border-radius: 14px;
+}
+
+.clip-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 9px;
+}
+
+.time {
+    width: 140px;
+}
+
+.clip-name {
+    flex: 1;
+}
+
+.filters {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 13px;
+}
+
+.filter {
+    border: 1px solid #363d4b;
+    background: transparent;
+    color: #a3aaba;
+    padding: 8px 13px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter.active {
+    background: white;
+    color: #111;
+}
+
+.search {
+    width: 100%;
+    margin-top: 13px;
+}
+
+.backup {
+    margin-top: 18px;
+    padding: 16px;
+    background: #101218;
+    border-radius: 14px;
+}
+
+.backup-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.backup-note {
+    color: #7e8798;
+    font-size: 11px;
+    margin-top: 9px;
+    line-height: 1.6;
+}
+
+.song {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-top: 8px;
+    padding: 11px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: .15s;
+}
+
+.song:hover {
+    background: #222631;
+}
+
+.song.active {
+    background: #2b3140;
+}
+
+.song.dragging {
+    opacity: .4;
+}
+
+.song.drag-over {
+    border-color: #68728a;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #777f91;
+    font-size: 20px;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.thumb {
+    width: 82px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 7px;
+    background: #080a0e;
+    flex-shrink: 0;
+}
+
+.info {
+    flex: 1;
+    min-width: 0;
+}
+
+.name {
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.meta {
+    color: #7e8798;
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+.icon {
+    border: 0;
+    background: transparent;
+    color: #7d8596;
+    font-size: 19px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.favorite {
+    color: #ff5d7c;
+}
+
+.empty {
+    color: #757e90;
+    text-align: center;
+    padding: 30px;
+}
+
+@media(max-width:650px) {
+
+    .app {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .player,
+    .section {
+        padding: 16px;
+    }
+
+    .url-row,
+    .clip-row {
+        flex-direction: column;
+    }
+
+    .time,
+    .clip-name {
+        width: 100%;
+    }
+
+    .thumb {
+        width: 65px;
+        height: 42px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+<div class="header">
+
+    <div class="logo">
+        🎵 My Music
+    </div>
+
+    <div class="subtitle">
+        YouTube Playlist & Clip Player
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PLAYER
+========================= -->
+
+<div class="player">
+
+    <div class="video">
+        <div id="yt"></div>
+    </div>
+
+    <div
+        id="nowTitle"
+        class="now-title"
+    >
+        曲を選択してください
+    </div>
+
+    <div
+        id="nowTime"
+        class="now-time"
+    >
+        0:00 / 0:00
+    </div>
+
+    <input
+        id="progress"
+        class="progress"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+    >
+
+    <div class="controls">
+
+        <button
+            class="control"
+            onclick="previousItem()"
+            title="前へ"
+        >
+            ⏮
+        </button>
+
+        <button
+            class="control"
+            onclick="back10()"
+            title="10秒戻る"
+        >
+            ⏪
+        </button>
+
+        <button
+            id="play"
+            class="control main"
+            onclick="togglePlay()"
+            title="再生 / 一時停止"
+        >
+            ▶
+        </button>
+
+        <button
+            class="control"
+            onclick="forward10()"
+            title="10秒進む"
+        >
+            ⏩
+        </button>
+
+        <button
+            class="control"
+            onclick="nextItem()"
+            title="次へ"
+        >
+            ⏭
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ADD
+========================= -->
+
+<div class="section">
+
+    <div class="title">
+        ＋ YouTubeを追加
+    </div>
+
+    <div class="url-row">
+
+        <input
+            id="url"
+            class="url"
+            placeholder="YouTube URLを貼り付け"
+        >
+
+        <button
+            class="button white"
+            onclick="loadVideo()"
+        >
+            読み込む
+        </button>
+
+    </div>
+
+    <div
+        id="status"
+        class="status"
+    ></div>
+
+    <div class="add-buttons">
+
+        <button
+            class="button gray"
+            onclick="addNormalVideo()"
+        >
+            🎬 動画として追加
+        </button>
+
+    </div>
+
+
+    <!-- CLIP -->
+
+    <div class="clip-box">
+
+        <div class="title">
+            ✂️ 切り抜きを追加
+        </div>
+
+        <div class="clip-row">
+
+            <input
+                id="start"
+                class="time"
+                placeholder="開始 1:23:45"
+            >
+
+            <button
+                class="button gray"
+                onclick="setStart()"
+            >
+                現在位置を開始に
+            </button>
+
+        </div>
+
+        <div class="clip-row">
+
+            <input
+                id="end"
+                class="time"
+                placeholder="終了 1:27:10"
+            >
+
+            <button
+                class="button gray"
+                onclick="setEnd()"
+            >
+                現在位置を終了に
+            </button>
+
+        </div>
+
+        <div class="clip-row">
+
+            <input
+                id="clipTitle"
+                class="clip-name"
+                placeholder="クリップ名"
+            >
+
+            <button
+                class="button white"
+                onclick="addClip()"
+            >
+                ✂️ 切り抜きを追加
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PLAYLIST
+========================= -->
+
+<div class="section">
+
+    <div class="title">
+        🎵 PLAYLIST
+    </div>
+
+    <input
+        id="search"
+        class="search"
+        placeholder="🔎 曲名を検索..."
+        oninput="renderPlaylist()"
+    >
+
+    <div class="filters">
+
+        <button
+            id="all"
+            class="filter active"
+            onclick="setFilter('all')"
+        >
+            すべて
+        </button>
+
+        <button
+            id="video"
+            class="filter"
+            onclick="setFilter('video')"
+        >
+            🎬 動画
+        </button>
+
+        <button
+            id="clip"
+            class="filter"
+            onclick="setFilter('clip')"
+        >
+            ✂️ 切り抜き
+        </button>
+
+        <button
+            id="favoriteFilter"
+            class="filter"
+            onclick="setFilter('favorite')"
+        >
+            ❤️ お気に入り
+        </button>
+
+        <button
+            id="shuffle"
+            class="filter"
+            onclick="toggleShuffle()"
+        >
+            🔀 シャッフル
+        </button>
+
+        <button
+            id="repeat"
+            class="filter"
+            onclick="toggleRepeat()"
+        >
+            🔁 リピート
+        </button>
+
+    </div>
+
+
+    <!-- BACKUP -->
+
+    <div class="backup">
+
+        <div class="title">
+            💾 プレイリストのバックアップ
+        </div>
+
+        <div class="backup-buttons">
+
+            <button
+                class="button gray"
+                onclick="exportPlaylistJSON()"
+            >
+                📤 保存
+            </button>
+
+            <button
+                class="button gray"
+                onclick="importPlaylistJSON()"
+            >
+                📥 読み込み
+            </button>
+
+        </div>
+
+        <div class="backup-note">
+
+            「保存」でプレイリストをJSONファイルにできます。<br>
+            曲・切り抜き・タイトル・お気に入り・並び順などを保存できます。<br>
+            ※YouTube動画そのものは保存されません。
+
+        </div>
+
+    </div>
+
+
+    <div id="playlist"></div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+let player = null;
+
+let playerReady = false;
+
+let currentVideoId = null;
+
+let currentIndex = -1;
+
+let filter = "all";
+
+let shuffle = false;
+
+let repeat = false;
+
+let playlist = [];
+
+let draggedIndex = null;
+
+
+/* =========================================================
+   STORAGE
+========================================================= */
+
+function save() {
+
+    try {
+
+        localStorage.setItem(
+            "my_music_playlist_v4",
+            JSON.stringify(playlist)
+        );
+
+    }
+
+    catch (e) {
+
+        console.warn(
+            "localStorage保存失敗:",
+            e
+        );
+
+    }
+
+}
+
+
+function load() {
+
+    try {
+
+        let saved =
+            localStorage.getItem(
+                "my_music_playlist_v4"
+            );
+
+
+        /*
+           v4がなければ、
+           以前のv3も探す
+        */
+
+        if (!saved) {
+
+            saved =
+                localStorage.getItem(
+                    "my_music_playlist_v3"
+                );
+
+        }
+
+
+        if (saved) {
+
+            const data =
+                JSON.parse(saved);
+
+            if (Array.isArray(data)) {
+
+                playlist = data;
+
+            }
+
+        }
+
+    }
+
+    catch (e) {
+
+        console.warn(
+            "プレイリスト読み込み失敗:",
+            e
+        );
+
+        playlist = [];
+
+    }
+
+
+    renderPlaylist();
+
+}
+
+
+/* =========================================================
+   JSON EXPORT
+========================================================= */
+
+function exportPlaylistJSON() {
+
+    try {
+
+        const data = {
+
+            version: 1,
+
+            exportedAt:
+                new Date().toISOString(),
+
+            playlist: playlist
+
+        };
+
+
+        const json =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
+
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const a =
+            document.createElement("a");
+
+
+        a.href = url;
+
+        a.download =
+            "my_music_playlist.json";
+
+
+        document.body.appendChild(a);
+
+        a.click();
+
+        a.remove();
+
+
+        setTimeout(
+            function() {
+
+                URL.revokeObjectURL(url);
+
+            },
+            1000
+        );
+
+
+        setStatus(
+            "📤 プレイリストを保存しました！"
+        );
+
+    }
+
+    catch (e) {
+
+        alert(
+            "保存に失敗しました。\n\n" +
+            e.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   JSON IMPORT
+========================================================= */
+
+function importPlaylistJSON() {
+
+    const input =
+        document.createElement("input");
+
+
+    input.type = "file";
+
+    input.accept =
+        ".json,application/json";
+
+
+    input.onchange =
+        function(event) {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+
+                return;
+
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function() {
+
+                    try {
+
+                        const data =
+                            JSON.parse(
+                                reader.result
+                            );
+
+
+                        let imported;
+
+
+                        /*
+                           新形式
+                        */
+
+                        if (
+                            data &&
+                            Array.isArray(
+                                data.playlist
+                            )
+                        ) {
+
+                            imported =
+                                data.playlist;
+
+                        }
+
+
+                        /*
+                           古い配列形式
+                        */
+
+                        else if (
+                            Array.isArray(data)
+                        ) {
+
+                            imported =
+                                data;
+
+                        }
+
+
+                        else {
+
+                            throw new Error(
+                                "プレイリストデータが見つかりません"
+                            );
+
+                        }
+
+
+                        /*
+                           最低限チェック
+                        */
+
+                        imported =
+                            imported.filter(
+                                function(item) {
+
+                                    return (
+                                        item &&
+                                        item.videoId
+                                    );
+
+                                }
+                            );
+
+
+                        if (
+                            !confirm(
+                                imported.length +
+                                "件のプレイリストを読み込みます。\n\n" +
+                                "現在のプレイリストは置き換わります。\n" +
+                                "よろしいですか？"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        playlist =
+                            imported.map(
+                                function(item) {
+
+                                    return {
+
+                                        id:
+                                            item.id ||
+                                            Date.now() +
+                                            Math.random(),
+
+                                        videoId:
+                                            String(
+                                                item.videoId
+                                            ),
+
+                                        title:
+                                            String(
+                                                item.title ||
+                                                "YouTube動画"
+                                            ),
+
+                                        type:
+                                            item.type ===
+                                            "clip"
+                                            ? "clip"
+                                            : "video",
+
+                                        start:
+                                            Number(
+                                                item.start
+                                            ) || 0,
+
+                                        end:
+                                            Number(
+                                                item.end
+                                            ) || 0,
+
+                                        favorite:
+                                            Boolean(
+                                                item.favorite
+                                            )
+
+                                    };
+
+                                }
+                            );
+
+
+                        currentIndex = -1;
+
+                        currentVideoId = null;
+
+
+                        save();
+
+                        renderPlaylist();
+
+
+                        setStatus(
+                            "📥 プレイリストを読み込みました！"
+                        );
+
+
+                        alert(
+                            "📥 " +
+                            playlist.length +
+                            "件を復元しました！"
+                        );
+
+                    }
+
+                    catch (e) {
+
+                        alert(
+                            "読み込みに失敗しました。\n\n" +
+                            e.message
+                        );
+
+                    }
+
+                };
+
+
+            reader.readAsText(file);
+
+            /*
+               同じファイルを
+               再度選択できるようにする
+            */
+
+            input.value = "";
+
+        };
+
+
+    input.click();
+
+}
+
+
+/* =========================================================
+   YOUTUBE ID
+========================================================= */
+
+function youtubeId(url) {
+
+    try {
+
+        const u =
+            new URL(url);
+
+
+        if (
+            u.hostname.includes(
+                "youtu.be"
+            )
+        ) {
+
+            return u.pathname
+                .slice(1)
+                .split("/")[0];
+
+        }
+
+
+        if (
+            u.hostname.includes(
+                "youtube.com"
+            )
+        ) {
+
+            const v =
+                u.searchParams.get("v");
+
+
+            if (v) {
+
+                return v;
+
+            }
+
+
+            if (
+                u.pathname.includes(
+                    "/shorts/"
+                )
+            ) {
+
+                return u.pathname
+                    .split("/shorts/")[1]
+                    .split("/")[0];
+
+            }
+
+
+            if (
+                u.pathname.includes(
+                    "/embed/"
+                )
+            ) {
+
+                return u.pathname
+                    .split("/embed/")[1]
+                    .split("/")[0];
+
+            }
+
+        }
+
+    }
+
+    catch (e) {}
+
+    return null;
+
+}
+
+
+/* =========================================================
+   LOAD VIDEO
+========================================================= */
+
+function loadVideo() {
+
+    const url =
+        document
+        .getElementById("url")
+        .value
+        .trim();
+
+
+    const id =
+        youtubeId(url);
+
+
+    if (!id) {
+
+        setStatus(
+            "❌ YouTube URLが正しくありません。"
+        );
+
+        return;
+
+    }
+
+
+    currentVideoId = id;
+
+
+    if (!playerReady) {
+
+        setStatus(
+            "プレイヤーを準備しています..."
+        );
+
+        return;
+
+    }
+
+
+    player.loadVideoById(id);
+
+
+    document
+    .getElementById("nowTitle")
+    .textContent =
+        "🎬 YouTube動画";
+
+
+    setStatus(
+        "✅ 動画を読み込みました！"
+    );
+
+}
+
+
+/* =========================================================
+   ADD NORMAL VIDEO
+========================================================= */
+
+function addNormalVideo() {
+
+    if (!currentVideoId) {
+
+        alert(
+            "先にYouTube動画を読み込んでください。"
+        );
+
+        return;
+
+    }
+
+
+    const title =
+        prompt(
+            "動画のタイトルを入力してください",
+            "YouTube動画"
+        );
+
+
+    if (title === null) {
+
+        return;
+
+    }
+
+
+    playlist.push({
+
+        id:
+            Date.now(),
+
+        videoId:
+            currentVideoId,
+
+        title:
+            title.trim() ||
+            "YouTube動画",
+
+        type:
+            "video",
+
+        start:
+            0,
+
+        end:
+            0,
+
+        favorite:
+            false
+
+    });
+
+
+    save();
+
+    renderPlaylist();
+
+
+    setStatus(
+        "🎬 動画を追加しました！"
+    );
+
+}
+
+
+/* =========================================================
+   START / END
+========================================================= */
+
+function setStart() {
+
+    if (!playerReady) {
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("start")
+    .value =
+        formatTime(
+            player.getCurrentTime()
+        );
+
+}
+
+
+function setEnd() {
+
+    if (!playerReady) {
+
+        return;
+
+    }
+
+
+    document
+    .getElementById("end")
+    .value =
+        formatTime(
+            player.getCurrentTime()
+        );
+
+}
+
+
+/* =========================================================
+   ADD CLIP
+========================================================= */
+
+function addClip() {
+
+    if (!currentVideoId) {
+
+        alert(
+            "先にYouTube動画を読み込んでください。"
+        );
+
+        return;
+
+    }
+
+
+    const start =
+        parseTime(
+            document
+            .getElementById("start")
+            .value
+        );
+
+
+    const end =
+        parseTime(
+            document
+            .getElementById("end")
+            .value
+        );
+
+
+    const title =
+        document
+        .getElementById("clipTitle")
+        .value
+        .trim();
+
+
+    if (
+        start === null ||
+        end === null
+    ) {
+
+        alert(
+            "開始と終了を設定してください。"
+        );
+
+        return;
+
+    }
+
+
+    if (end <= start) {
+
+        alert(
+            "終了時間は開始時間より後にしてください。"
+        );
+
+        return;
+
+    }
+
+
+    playlist.push({
+
+        id:
+            Date.now(),
+
+        videoId:
+            currentVideoId,
+
+        title:
+            title ||
+            "YouTubeクリップ",
+
+        type:
+            "clip",
+
+        start:
+            start,
+
+        end:
+            end,
+
+        favorite:
+            false
+
+    });
+
+
+    save();
+
+    renderPlaylist();
+
+
+    document
+    .getElementById("clipTitle")
+    .value = "";
+
+
+    setStatus(
+        "✂️ 切り抜きを追加しました！"
+    );
+
+}
+
+
+/* =========================================================
+   PLAY ITEM
+========================================================= */
+
+function playItem(index) {
+
+    const item =
+        playlist[index];
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    currentIndex = index;
+
+
+    currentVideoId =
+        item.videoId;
+
+
+    player.loadVideoById({
+
+        videoId:
+            item.videoId,
+
+        startSeconds:
+            item.start || 0
+
+    });
+
+
+    document
+    .getElementById("nowTitle")
+    .textContent =
+        (
+            item.type === "clip"
+            ? "✂️ "
+            : "🎬 "
+        )
+        +
+        item.title;
+
+
+    renderPlaylist();
+
+}
+
+
+/* =========================================================
+   PLAYABLE ITEMS
+========================================================= */
+
+function playableItems() {
+
+    return playlist
+
+        .map(
+            function(item, index) {
+
+                return {
+                    item: item,
+                    index: index
+                };
+
+            }
+        )
+
+        .filter(
+            function(x) {
+
+                if (
+                    filter === "video"
+                ) {
+
+                    return (
+                        x.item.type ===
+                        "video"
+                    );
+
+                }
+
+
+                if (
+                    filter === "clip"
+                ) {
+
+                    return (
+                        x.item.type ===
+                        "clip"
+                    );
+
+                }
+
+
+                if (
+                    filter === "favorite"
+                ) {
+
+                    return (
+                        x.item.favorite
+                    );
+
+                }
+
+
+                return true;
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   NEXT
+========================================================= */
+
+function nextItem() {
+
+    const items =
+        playableItems();
+
+
+    if (!items.length) {
+
+        return;
+
+    }
+
+
+    let position =
+        items.findIndex(
+            function(x) {
+
+                return (
+                    x.index ===
+                    currentIndex
+                );
+
+            }
+        );
+
+
+    let next;
+
+
+    if (shuffle) {
+
+        if (items.length === 1) {
+
+            next = 0;
+
+        }
+
+        else {
+
+            do {
+
+                next =
+                    Math.floor(
+                        Math.random() *
+                        items.length
+                    );
+
+            }
+
+            while (
+                items[next].index ===
+                currentIndex
+            );
+
+        }
+
+    }
+
+    else {
+
+        next =
+            position + 1;
+
+
+        if (
+            position === -1 ||
+            next >= items.length
+        ) {
+
+            next = 0;
+
+        }
+
+    }
+
+
+    playItem(
+        items[next].index
+    );
+
+}
+
+
+/* =========================================================
+   PREVIOUS
+========================================================= */
+
+function previousItem() {
+
+    const items =
+        playableItems();
+
+
+    if (!items.length) {
+
+        return;
+
+    }
+
+
+    let position =
+        items.findIndex(
+            function(x) {
+
+                return (
+                    x.index ===
+                    currentIndex
+                );
+
+            }
+        );
+
+
+    if (position === -1) {
+
+        position = 0;
+
+    }
+
+
+    let prev =
+        position - 1;
+
+
+    if (prev < 0) {
+
+        prev =
+            items.length - 1;
+
+    }
+
+
+    playItem(
+        items[prev].index
+    );
+
+}
+
+
+/* =========================================================
+   PLAY / PAUSE
+========================================================= */
+
+function togglePlay() {
+
+    if (!playerReady) {
+
+        return;
+
+    }
+
+
+    if (currentIndex === -1) {
+
+        const items =
+            playableItems();
+
+
+        if (items.length) {
+
+            playItem(
+                items[0].index
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    const state =
+        player.getPlayerState();
+
+
+    if (
+        state ===
+        YT.PlayerState.PLAYING
+    ) {
+
+        player.pauseVideo();
+
+    }
+
+    else {
+
+        player.playVideo();
+
+    }
+
+}
+
+
+/* =========================================================
+   SEEK
+========================================================= */
+
+function back10() {
+
+    if (!playerReady) {
+
+        return;
+
+    }
+
+
+    player.seekTo(
+        Math.max(
+            0,
+            player.getCurrentTime() - 10
+        ),
+        true
+    );
+
+}
+
+
+function forward10() {
+
+    if (!playerReady) {
+
+        return;
+
+    }
+
+
+    player.seekTo(
+        player.getCurrentTime() + 10,
+        true
+    );
+
+}
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function setFilter(value) {
+
+    filter = value;
+
+
+    document
+    .querySelectorAll(".filter")
+    .forEach(
+        function(button) {
+
+            if (
+                button.id === "shuffle" ||
+                button.id === "repeat"
+            ) {
+
+                return;
+
+            }
+
+
+            button.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    const id =
+        value === "all"
+        ? "all"
+        : value === "video"
+        ? "video"
+        : value === "clip"
+        ? "clip"
+        : "favoriteFilter";
+
+
+    document
+    .getElementById(id)
+    .classList.add("active");
+
+
+    renderPlaylist();
+
+}
+
+
+/* =========================================================
+   SHUFFLE
+========================================================= */
+
+function toggleShuffle() {
+
+    shuffle = !shuffle;
+
+
+    document
+    .getElementById("shuffle")
+    .classList.toggle(
+        "active",
+        shuffle
+    );
+
+}
+
+
+/* =========================================================
+   REPEAT
+========================================================= */
+
+function toggleRepeat() {
+
+    repeat = !repeat;
+
+
+    document
+    .getElementById("repeat")
+    .classList.toggle(
+        "active",
+        repeat
+    );
+
+}
+
+
+/* =========================================================
+   FAVORITE
+========================================================= */
+
+function favorite(index, event) {
+
+    event.stopPropagation();
+
+
+    playlist[index].favorite =
+        !playlist[index].favorite;
+
+
+    save();
+
+    renderPlaylist();
+
+}
+
+
+/* =========================================================
+   EDIT
+========================================================= */
+
+function editItem(index, event) {
+
+    event.stopPropagation();
+
+
+    const item =
+        playlist[index];
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    const newTitle =
+        prompt(
+            "タイトルを変更してください",
+            item.title
+        );
+
+
+    if (newTitle === null) {
+
+        return;
+
+    }
+
+
+    const title =
+        newTitle.trim();
+
+
+    if (title) {
+
+        item.title = title;
+
+    }
+
+
+    if (
+        item.type === "clip"
+    ) {
+
+        const newStart =
+            prompt(
+                "開始時間\n例: 1:23:45",
+                formatTime(item.start)
+            );
+
+
+        if (newStart === null) {
+
+            return;
+
+        }
+
+
+        const newEnd =
+            prompt(
+                "終了時間\n例: 1:27:10",
+                formatTime(item.end)
+            );
+
+
+        if (newEnd === null) {
+
+            return;
+
+        }
+
+
+        const start =
+            parseTime(newStart);
+
+
+        const end =
+            parseTime(newEnd);
+
+
+        if (
+            start === null ||
+            end === null
+        ) {
+
+            alert(
+                "時間の形式が正しくありません。"
+            );
+
+            return;
+
+        }
+
+
+        if (end <= start) {
+
+            alert(
+                "終了時間は開始時間より後にしてください。"
+            );
+
+            return;
+
+        }
+
+
+        item.start = start;
+
+        item.end = end;
+
+    }
+
+
+    save();
+
+    renderPlaylist();
+
+
+    setStatus(
+        "✏️ 編集内容を保存しました！"
+    );
+
+}
+
+
+/* =========================================================
+   DELETE
+========================================================= */
+
+function removeItem(index, event) {
+
+    event.stopPropagation();
+
+
+    if (
+        !confirm(
+            "この項目を削除しますか？"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    playlist.splice(
+        index,
+        1
+    );
+
+
+    if (
+        currentIndex === index
+    ) {
+
+        currentIndex = -1;
+
+    }
+
+    else if (
+        currentIndex > index
+    ) {
+
+        currentIndex--;
+
+    }
+
+
+    save();
+
+    renderPlaylist();
+
+}
+
+
+/* =========================================================
+   DRAG START
+========================================================= */
+
+function dragStart(event, index) {
+
+    draggedIndex = index;
+
+
+    event.dataTransfer.effectAllowed =
+        "move";
+
+
+    event.dataTransfer.setData(
+        "text/plain",
+        String(index)
+    );
+
+
+    event.currentTarget.classList.add(
+        "dragging"
+    );
+
+}
+
+
+/* =========================================================
+   DRAG OVER
+========================================================= */
+
+function dragOver(event, index) {
+
+    event.preventDefault();
+
+
+    event.dataTransfer.dropEffect =
+        "move";
+
+
+    if (
+        index !== draggedIndex
+    ) {
+
+        event.currentTarget.classList.add(
+            "drag-over"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DRAG LEAVE
+========================================================= */
+
+function dragLeave(event) {
+
+    event.currentTarget.classList.remove(
+        "drag-over"
+    );
+
+}
+
+
+/* =========================================================
+   DRAG END
+========================================================= */
+
+function dragEnd(event) {
+
+    document
+    .querySelectorAll(".song")
+    .forEach(
+        function(row) {
+
+            row.classList.remove(
+                "dragging"
+            );
+
+            row.classList.remove(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    draggedIndex = null;
+
+}
+
+
+/* =========================================================
+   DROP
+========================================================= */
+
+function dropItem(event, targetIndex) {
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    if (
+        draggedIndex === null ||
+        draggedIndex === targetIndex
+    ) {
+
+        dragEnd(event);
+
+        return;
+
+    }
+
+
+    const moved =
+        playlist.splice(
+            draggedIndex,
+            1
+        )[0];
+
+
+    playlist.splice(
+        targetIndex,
+        0,
+        moved
+    );
+
+
+    /*
+       再生中indexを調整
+    */
+
+    if (
+        currentIndex === draggedIndex
+    ) {
+
+        currentIndex =
+            targetIndex;
+
+    }
+
+    else if (
+        draggedIndex < currentIndex &&
+        targetIndex >= currentIndex
+    ) {
+
+        currentIndex--;
+
+    }
+
+    else if (
+        draggedIndex > currentIndex &&
+        targetIndex <= currentIndex
+    ) {
+
+        currentIndex++;
+
+    }
+
+
+    save();
+
+    renderPlaylist();
+
+
+    setStatus(
+        "☰ プレイリストの順番を変更しました！"
+    );
+
+
+    draggedIndex = null;
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function renderPlaylist() {
+
+    const container =
+        document
+        .getElementById("playlist");
+
+
+    const search =
+        document
+        .getElementById("search")
+        .value
+        .toLowerCase();
+
+
+    const visible =
+        playlist
+
+        .map(
+            function(item, index) {
+
+                return {
+                    item: item,
+                    index: index
+                };
+
+            }
+        )
+
+        .filter(
+            function(x) {
+
+                const text =
+                    x.item.title
+                    .toLowerCase()
+                    .includes(search);
+
+
+                let typeOK = true;
+
+
+                if (
+                    filter === "video"
+                ) {
+
+                    typeOK =
+                        x.item.type ===
+                        "video";
+
+                }
+
+
+                if (
+                    filter === "clip"
+                ) {
+
+                    typeOK =
+                        x.item.type ===
+                        "clip";
+
+                }
+
+
+                if (
+                    filter === "favorite"
+                ) {
+
+                    typeOK =
+                        x.item.favorite;
+
+                }
+
+
+                return (
+                    text &&
+                    typeOK
+                );
+
+            }
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (!visible.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+                まだ曲がありません
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    visible.forEach(
+        function(x) {
+
+            const item =
+                x.item;
+
+            const index =
+                x.index;
+
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "song"
+                +
+                (
+                    index === currentIndex
+                    ? " active"
+                    : ""
+                );
+
+
+            row.draggable = true;
+
+
+            row.addEventListener(
+                "click",
+                function() {
+
+                    playItem(index);
+
+                }
+            );
+
+
+            row.addEventListener(
+                "dragstart",
+                function(event) {
+
+                    dragStart(
+                        event,
+                        index
+                    );
+
+                }
+            );
+
+
+            row.addEventListener(
+                "dragover",
+                function(event) {
+
+                    dragOver(
+                        event,
+                        index
+                    );
+
+                }
+            );
+
+
+            row.addEventListener(
+                "dragleave",
+                dragLeave
+            );
+
+
+            row.addEventListener(
+                "drop",
+                function(event) {
+
+                    dropItem(
+                        event,
+                        index
+                    );
+
+                }
+            );
+
+
+            row.addEventListener(
+                "dragend",
+                dragEnd
+            );
+
+
+            const thumb =
+                "https://img.youtube.com/vi/"
+                +
+                item.videoId
+                +
+                "/hqdefault.jpg";
+
+
+            const time =
+                item.type === "clip"
+
+                ?
+
+                formatTime(
+                    item.start
+                )
+                +
+                " → "
+                +
+                formatTime(
+                    item.end
+                )
+
+                :
+
+                "通常動画";
+
+
+            row.innerHTML = `
+
+                <div
+                    class="drag-handle"
+                    title="ドラッグして並び替え"
+                >
+                    ☰
+                </div>
+
+                <img
+                    class="thumb"
+                    src="${thumb}"
+                    onerror="
+                        this.style.visibility='hidden'
+                    "
+                >
+
+                <div class="info">
+
+                    <div class="name">
+
+                        ${
+                            item.type === "clip"
+                            ? "✂️ "
+                            : "🎬 "
+                        }
+
+                        ${escapeHtml(
+                            item.title
+                        )}
+
+                    </div>
+
+                    <div class="meta">
+                        ${time}
+                    </div>
+
+                </div>
+
+                <button
+                    class="icon ${
+                        item.favorite
+                        ? "favorite"
+                        : ""
+                    }"
+                    onclick="
+                        favorite(
+                            ${index},
+                            event
+                        )
+                    "
+                    title="お気に入り"
+                >
+                    ${
+                        item.favorite
+                        ? "♥"
+                        : "♡"
+                    }
+                </button>
+
+                <button
+                    class="icon"
+                    onclick="
+                        editItem(
+                            ${index},
+                            event
+                        )
+                    "
+                    title="編集"
+                >
+                    ✏️
+                </button>
+
+                <button
+                    class="icon"
+                    onclick="
+                        removeItem(
+                            ${index},
+                            event
+                        )
+                    "
+                    title="削除"
+                >
+                    🗑
+                </button>
+
+            `;
+
+
+            container.appendChild(row);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   TIME PARSE
+========================================================= */
+
+function parseTime(value) {
+
+    if (!value) {
+
+        return null;
+
+    }
+
+
+    const p =
+        value
+        .trim()
+        .split(":")
+        .map(Number);
+
+
+    if (
+        p.some(
+            function(x) {
+
+                return Number.isNaN(x);
+
+            }
+        )
+    ) {
+
+        return null;
+
+    }
+
+
+    if (p.length === 1) {
+
+        return p[0];
+
+    }
+
+
+    if (p.length === 2) {
+
+        return (
+            p[0] * 60 +
+            p[1]
+        );
+
+    }
+
+
+    if (p.length === 3) {
+
+        return (
+            p[0] * 3600 +
+            p[1] * 60 +
+            p[2]
+        );
+
+    }
+
+
+    return null;
+
+}
+
+
+/* =========================================================
+   TIME FORMAT
+========================================================= */
+
+function formatTime(seconds) {
+
+    if (
+        !isFinite(seconds) ||
+        seconds < 0
+    ) {
+
+        return "0:00";
+
+    }
+
+
+    seconds =
+        Math.floor(seconds);
+
+
+    const h =
+        Math.floor(
+            seconds / 3600
+        );
+
+
+    const m =
+        Math.floor(
+            (seconds % 3600) / 60
+        );
+
+
+    const s =
+        seconds % 60;
+
+
+    if (h > 0) {
+
+        return (
+            h +
+            ":" +
+            String(m).padStart(2, "0") +
+            ":" +
+            String(s).padStart(2, "0")
+        );
+
+    }
+
+
+    return (
+        m +
+        ":" +
+        String(s).padStart(2, "0")
+    );
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHtml(text) {
+
+    const div =
+        document.createElement("div");
+
+
+    div.textContent = text;
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(text) {
+
+    document
+    .getElementById("status")
+    .textContent = text;
+
+}
+
+
+/* =========================================================
+   YOUTUBE API
+========================================================= */
+
+function onYouTubeIframeAPIReady() {
+
+    player =
+        new YT.Player(
+            "yt",
+            {
+
+                width:
+                    "100%",
+
+                height:
+                    "100%",
+
+                playerVars: {
+
+                    autoplay:
+                        0,
+
+                    controls:
+                        1,
+
+                    rel:
+                        0,
+
+                    playsinline:
+                        1
+
+                },
+
+                events: {
+
+                    onReady:
+                        onPlayerReady,
+
+                    onStateChange:
+                        onPlayerStateChange
+
+                }
+
+            }
+        );
+
+}
+
+
+function onPlayerReady() {
+
+    playerReady = true;
+
+
+    setStatus(
+        "🎉 YouTubeプレイヤー準備完了！"
+    );
+
+}
+
+
+/* =========================================================
+   PLAYER STATE
+========================================================= */
+
+function onPlayerStateChange(event) {
+
+    const button =
+        document.getElementById(
+            "play"
+        );
+
+
+    if (
+        event.data ===
+        YT.PlayerState.PLAYING
+    ) {
+
+        button.textContent =
+            "⏸";
+
+    }
+
+    else {
+
+        button.textContent =
+            "▶";
+
+    }
+
+
+    if (
+        event.data ===
+        YT.PlayerState.ENDED
+    ) {
+
+        if (repeat) {
+
+            if (
+                currentIndex >= 0
+            ) {
+
+                const item =
+                    playlist[
+                        currentIndex
+                    ];
+
+
+                if (
+                    item &&
+                    item.type === "clip"
+                ) {
+
+                    player.seekTo(
+                        item.start,
+                        true
+                    );
+
+                    player.playVideo();
+
+                }
+
+                else {
+
+                    playItem(
+                        currentIndex
+                    );
+
+                }
+
+            }
+
+        }
+
+        else {
+
+            nextItem();
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   CLIP END CHECK
+========================================================= */
+
+setInterval(
+    function() {
+
+        if (
+            !playerReady ||
+            currentIndex < 0
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const item =
+                playlist[
+                    currentIndex
+                ];
+
+
+            if (
+                !item ||
+                item.type !== "clip"
+            ) {
+
+                return;
+
+            }
+
+
+            const current =
+                player.getCurrentTime();
+
+
+            if (
+                current >=
+                item.end - 0.25
+            ) {
+
+                if (repeat) {
+
+                    player.seekTo(
+                        item.start,
+                        true
+                    );
+
+                    player.playVideo();
+
+                }
+
+                else {
+
+                    nextItem();
+
+                }
+
+            }
+
+        }
+
+        catch (e) {}
+
+    },
+    250
+);
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+setInterval(
+    function() {
+
+        if (!playerReady) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const current =
+                player.getCurrentTime();
+
+
+            const duration =
+                player.getDuration();
+
+
+            if (duration > 0) {
+
+                document
+                .getElementById(
+                    "progress"
+                )
+                .value =
+                    current /
+                    duration *
+                    100;
+
+
+                document
+                .getElementById(
+                    "nowTime"
+                )
+                .textContent =
+                    formatTime(current)
+                    +
+                    " / "
+                    +
+                    formatTime(duration);
+
+            }
+
+        }
+
+        catch (e) {}
+
+    },
+    300
+);
+
+
+/* =========================================================
+   PROGRESS SEEK
+========================================================= */
+
+document
+.getElementById("progress")
+.addEventListener(
+    "input",
+    function() {
+
+        if (!playerReady) {
+
+            return;
+
+        }
+
+
+        const duration =
+            player.getDuration();
+
+
+        player.seekTo(
+            duration *
+            Number(this.value) /
+            100,
+            true
+        );
+
+    }
+);
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e) {
+
+        if (
+            e.target.tagName ===
+            "INPUT"
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            e.code === "Space"
+        ) {
+
+            e.preventDefault();
+
+            togglePlay();
+
+        }
+
+
+        if (
+            e.code === "ArrowLeft"
+        ) {
+
+            back10();
+
+        }
+
+
+        if (
+            e.code === "ArrowRight"
+        ) {
+
+            forward10();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+load();
+
+
+const ytScript =
+    document.createElement(
+        "script"
+    );
+
+
+ytScript.src =
+    "https://www.youtube.com/iframe_api";
+
+
+document.head.appendChild(
+    ytScript
+);
+
+</script>
+
+</body>
+</html>

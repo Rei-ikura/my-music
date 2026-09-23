@@ -4,6 +4,8 @@
 
 <head>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <meta charset="UTF-8">
 
 <style>
@@ -332,11 +334,28 @@ input:focus {
     padding: 30px;
 }
 
-@media(max-width:650px) {
+@media (max-width: 650px) {
+
+    body {
+        font-size: 16px;
+    }
 
     .app {
+        width: 100%;
         margin: 0;
         border-radius: 0;
+    }
+
+    .header {
+        padding: 20px 16px;
+    }
+
+    .logo {
+        font-size: 25px;
+    }
+
+    .subtitle {
+        font-size: 12px;
     }
 
     .player,
@@ -344,9 +363,77 @@ input:focus {
         padding: 16px;
     }
 
+    .video {
+        border-radius: 12px;
+    }
+
+    .now-title {
+        font-size: 19px;
+        margin-top: 14px;
+        line-height: 1.4;
+    }
+
+    .now-time {
+        font-size: 13px;
+    }
+
+    .progress {
+        height: 30px;
+        margin-top: 10px;
+    }
+
+    .controls {
+        gap: 8px;
+        margin-top: 10px;
+    }
+
+    .control {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+
+    .control.main {
+        width: 64px;
+        height: 64px;
+        font-size: 24px;
+    }
+
+    .title {
+        font-size: 17px;
+    }
+
     .url-row,
     .clip-row {
         flex-direction: column;
+        gap: 10px;
+    }
+
+    input {
+        width: 100%;
+        min-height: 48px;
+        font-size: 16px;
+        padding: 12px 13px;
+    }
+
+    .url {
+        width: 100%;
+    }
+
+    .button {
+        width: 100%;
+        min-height: 48px;
+        padding: 12px 16px;
+        font-size: 15px;
+    }
+
+    .add-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .clip-box {
+        padding: 15px;
     }
 
     .time,
@@ -354,9 +441,63 @@ input:focus {
         width: 100%;
     }
 
+    .filters {
+        gap: 8px;
+    }
+
+    .filter {
+        min-height: 44px;
+        padding: 9px 13px;
+        font-size: 14px;
+    }
+
+    .search {
+        min-height: 48px;
+    }
+
+    .backup {
+        padding: 15px;
+    }
+
+    .backup-buttons {
+        flex-direction: column;
+    }
+
+    .song {
+        gap: 9px;
+        padding: 12px 8px;
+        min-height: 70px;
+    }
+
+    .drag-handle {
+        font-size: 21px;
+        padding: 5px 2px;
+    }
+
     .thumb {
-        width: 65px;
+        width: 72px;
+        height: 46px;
+    }
+
+    .name {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .meta {
+        font-size: 11px;
+        margin-top: 3px;
+    }
+
+    .icon {
+        width: 42px;
         height: 42px;
+        font-size: 19px;
+        padding: 5px;
+    }
+
+    .empty {
+        padding: 35px 15px;
     }
 
 }

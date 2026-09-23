@@ -3835,14 +3835,18 @@ function showTab(tab) {
             const title =
                 section.querySelector(".title");
 
-            if (
-                title &&
-                title.textContent.includes("PLAYLIST")
-            ) {
+           if (
+    title &&
+    (
+        title.textContent.includes("PLAYLIST") ||
+        title.textContent.includes("テーマカラー")
+    )
+) {
 
-                section.style.display = "none";
+    section.style.display = "none";
 
-            }
+}
+
 
             else {
 

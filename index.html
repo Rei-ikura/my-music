@@ -1244,6 +1244,8 @@ let playlist = [];
 
 let draggedIndex = null;
 
+let savedCurrentIndex = -1;
+let savedCurrentTime = 0;
 
 /* =========================================================
    STORAGE
@@ -2012,6 +2014,16 @@ function playItem(index) {
 
     currentIndex = index;
 
+savedCurrentIndex = index;
+savedCurrentTime = item.start || 0;
+
+localStorage.setItem(
+    "my_music_current",
+    JSON.stringify({
+        index: index,
+        time: item.start || 0
+    })
+);
 
     currentVideoId =
         item.videoId;
@@ -3341,11 +3353,82 @@ function onPlayerReady() {
     playerReady = true;
 
 
+    const saved =
+        localStorage.getItem(
+            "my_music_current"
+        );
+
+
+    if (saved) {
+
+        try {
+
+            const data =
+                JSON.parse(saved);
+
+
+            const index =
+                Number(data.index);
+
+            const time =
+                Number(data.time) || 0;
+
+
+            if (
+                playlist[index]
+            ) {
+
+                currentIndex = index;
+
+                currentVideoId =
+                    playlist[index].videoId;
+
+
+                player.cueVideoById({
+                    videoId:
+                        playlist[index].videoId,
+
+                    startSeconds:
+                        time
+                });
+
+
+                document
+                .getElementById("nowTitle")
+                .textContent =
+                    (
+                        playlist[index].type === "clip"
+                        ? "✂️ "
+                        : "🎬 "
+                    )
+                    +
+                    playlist[index].title;
+
+
+                renderPlaylist();
+
+            }
+
+        }
+
+        catch (e) {
+
+            console.warn(
+                "再生状態の復元に失敗:",
+                e
+            );
+
+        }
+
+    }
+
+
     setStatus(
         "🎉 YouTubeプレイヤー準備完了！"
     );
 
 }
+
 
 
 /* =========================================================
@@ -3561,6 +3644,42 @@ setInterval(
     300
 );
 
+/* =========================================================
+   SAVE CURRENT PLAYBACK
+========================================================= */
+
+setInterval(
+    function() {
+
+        if (
+            !playerReady ||
+            currentIndex < 0
+        ) {
+
+            return;
+
+        }
+
+        try {
+
+            const time =
+                player.getCurrentTime();
+
+            localStorage.setItem(
+                "my_music_current",
+                JSON.stringify({
+                    index: currentIndex,
+                    time: time
+                })
+            );
+
+        }
+
+        catch (e) {}
+
+    },
+    1000
+);
 
 /* =========================================================
    PROGRESS SEEK

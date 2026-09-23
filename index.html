@@ -163,6 +163,72 @@ input:focus {
     color: #111;
 }
 
+.theme-buttons + * {
+    --theme-accent: #f7c8d8;
+}
+
+.button.white {
+    background: var(--theme-accent, white);
+    color: var(--theme-accent-text, #111);
+}
+
+.control.main {
+    background: var(--theme-accent, white);
+    color: var(--theme-accent-text, #111);
+}
+
+.filter.active {
+    background: var(--theme-accent, white);
+    color: var(--theme-accent-text, #111);
+}
+
+/* =========================
+   PASTEL COLORS
+========================= */
+
+.theme-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.theme-button {
+    border: 2px solid transparent;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.theme-button:hover {
+    transform: scale(1.08);
+}
+
+.theme-pink {
+    background: #f6c1d1;
+}
+
+.theme-blue {
+    background: #b9d7f2;
+}
+
+.theme-purple {
+    background: #d4c2f0;
+}
+
+.theme-green {
+    background: #c5e6d0;
+}
+
+.theme-yellow {
+    background: #f5dfaa;
+}
+
+.theme-peach {
+    background: #f3c5a8;
+}
+
 .gray {
     background: #303642;
     color: white;
@@ -501,6 +567,54 @@ input:focus {
     }
 
 }
+    
+.theme-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.theme-btn {
+    width: 48px;
+    height: 48px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    transition: transform .15s, border-color .15s;
+}
+
+.theme-btn:hover {
+    transform: scale(1.08);
+}
+
+.theme-btn:active {
+    transform: scale(.95);
+}
+
+.pastel-pink {
+    background: #f7c8d8;
+}
+
+.pastel-purple {
+    background: #d8c9f2;
+}
+
+.pastel-blue {
+    background: #c5e3f6;
+}
+
+.pastel-green {
+    background: #c9e6d0;
+}
+
+.pastel-yellow {
+    background: #f5e6ad;
+}
+
+.pastel-peach {
+    background: #f6d0bd;
+}
 
 </style>
 
@@ -717,6 +831,42 @@ input:focus {
 <!-- =========================
      PLAYLIST
 ========================= -->
+
+<div class="section">
+
+    <div class="title">
+        🎨 テーマカラー
+    </div>
+
+    <div class="theme-buttons">
+
+        <button class="theme-btn pastel-pink" onclick="setTheme('pink')">
+            🩷
+        </button>
+
+        <button class="theme-btn pastel-purple" onclick="setTheme('purple')">
+            💜
+        </button>
+
+        <button class="theme-btn pastel-blue" onclick="setTheme('blue')">
+            🩵
+        </button>
+
+        <button class="theme-btn pastel-green" onclick="setTheme('green')">
+            💚
+        </button>
+
+        <button class="theme-btn pastel-yellow" onclick="setTheme('yellow')">
+            💛
+        </button>
+
+        <button class="theme-btn pastel-peach" onclick="setTheme('peach')">
+            🧡
+        </button>
+
+    </div>
+
+</div>
 
 <div class="section">
 
@@ -3274,6 +3424,149 @@ ytScript.src =
 document.head.appendChild(
     ytScript
 );
+
+    function setTheme(theme) {
+
+    const themes = {
+
+        pink: {
+            accent: "#f7c8d8",
+            accentText: "#3a2830"
+        },
+
+        purple: {
+            accent: "#d8c9f2",
+            accentText: "#30283b"
+        },
+
+        blue: {
+            accent: "#c5e3f6",
+            accentText: "#263640"
+        },
+
+        green: {
+            accent: "#c9e6d0",
+            accentText: "#26382c"
+        },
+
+        yellow: {
+            accent: "#f5e6ad",
+            accentText: "#3a3522"
+        },
+
+        peach: {
+            accent: "#f6d0bd",
+            accentText: "#3b2c26"
+        }
+
+    };
+
+
+    const selected =
+        themes[theme];
+
+    if (!selected) {
+        return;
+    }
+
+
+    document.documentElement.style.setProperty(
+        "--theme-accent",
+        selected.accent
+    );
+
+    document.documentElement.style.setProperty(
+        "--theme-accent-text",
+        selected.accentText
+    );
+
+
+    document.body.style.setProperty(
+        "--theme-accent",
+        selected.accent
+    );
+
+    document.body.style.setProperty(
+        "--theme-accent-text",
+        selected.accentText
+    );
+
+
+    localStorage.setItem(
+        "my_music_theme",
+        theme
+    );
+
+
+    applyTheme();
+}
+
+
+function applyTheme() {
+
+    const theme =
+        localStorage.getItem(
+            "my_music_theme"
+        );
+
+
+    const themes = {
+
+        pink: {
+            accent: "#f7c8d8",
+            accentText: "#3a2830"
+        },
+
+        purple: {
+            accent: "#d8c9f2",
+            accentText: "#30283b"
+        },
+
+        blue: {
+            accent: "#c5e3f6",
+            accentText: "#263640"
+        },
+
+        green: {
+            accent: "#c9e6d0",
+            accentText: "#26382c"
+        },
+
+        yellow: {
+            accent: "#f5e6ad",
+            accentText: "#3a3522"
+        },
+
+        peach: {
+            accent: "#f6d0bd",
+            accentText: "#3b2c26"
+        }
+
+    };
+
+
+    if (!theme || !themes[theme]) {
+        return;
+    }
+
+
+    document.documentElement.style.setProperty(
+        "--theme-accent",
+        themes[theme].accent
+    );
+
+    document.documentElement.style.setProperty(
+        "--theme-accent-text",
+        themes[theme].accentText
+    );
+
+}
+
+
+
+/* 保存されているテーマを復元 */
+
+applyTheme();
 
 </script>
 

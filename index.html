@@ -3728,11 +3728,22 @@ function applyTheme() {
 
 
 
-/* 保存されているテーマを復元 */
+/* 保存されているテーマを復元
+   保存されていなければピンクを初期設定 */
 
-applyTheme();
+const savedTheme =
+    localStorage.getItem("my_music_theme");
 
-</script>
+if (savedTheme) {
+
+    setTheme(savedTheme);
+
+} else {
+
+    setTheme("pink");
+
+}
+
 
 </body>
 </html>

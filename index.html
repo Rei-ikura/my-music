@@ -702,6 +702,48 @@ input::placeholder {
     color: #a79da5;
 }
 
+.tabs {
+    display: flex;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #101218;
+    border-top: 1px solid #292e38;
+    border-bottom: 1px solid #292e38;
+}
+
+.tab {
+    flex: 1;
+    border: 0;
+    border-radius: 12px;
+    padding: 12px;
+    background: transparent;
+    color: #8f97a8;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: var(--theme-accent, #f7c8d8);
+    color: var(--theme-accent-text, #3a2830);
+}
+
+.tab:hover {
+    background: #252a35;
+}
+
+@media(max-width:650px) {
+
+    .tabs {
+        padding: 10px 12px;
+    }
+
+    .tab {
+        padding: 11px 6px;
+        font-size: 13px;
+    }
+
+}
+
 </style>
 
 </head>
@@ -721,6 +763,26 @@ input::placeholder {
     <div class="subtitle">
         YouTube Playlist & Clip Player
     </div>
+
+</div>
+
+<div class="tabs">
+
+    <button
+        id="playerTab"
+        class="tab active"
+        onclick="showTab('player')"
+    >
+        🎵 プレイヤー
+    </button>
+
+    <button
+        id="playlistTab"
+        class="tab"
+        onclick="showTab('playlist')"
+    >
+        📋 プレイリスト
+    </button>
 
 </div>
 
@@ -3741,6 +3803,86 @@ if (savedTheme) {
 } else {
 
     setTheme("pink");
+
+}
+
+function showTab(tab) {
+
+    const player =
+        document.querySelector(".player");
+
+    const sections =
+        document.querySelectorAll(".section");
+
+    const playerTab =
+        document.getElementById("playerTab");
+
+    const playlistTab =
+        document.getElementById("playlistTab");
+
+
+    if (tab === "player") {
+
+        player.style.display = "";
+
+        sections.forEach(function(section) {
+
+            const title =
+                section.querySelector(".title");
+
+            if (
+                title &&
+                title.textContent.includes("PLAYLIST")
+            ) {
+
+                section.style.display = "none";
+
+            }
+
+            else {
+
+                section.style.display = "";
+
+            }
+
+        });
+
+        playerTab.classList.add("active");
+        playlistTab.classList.remove("active");
+
+    }
+
+
+    if (tab === "playlist") {
+
+        player.style.display = "none";
+
+        sections.forEach(function(section) {
+
+            const title =
+                section.querySelector(".title");
+
+            if (
+                title &&
+                title.textContent.includes("YouTubeを追加")
+            ) {
+
+                section.style.display = "none";
+
+            }
+
+            else {
+
+                section.style.display = "";
+
+            }
+
+        });
+
+        playerTab.classList.remove("active");
+        playlistTab.classList.add("active");
+
+    }
 
 }
     

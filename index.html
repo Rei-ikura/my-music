@@ -87,9 +87,15 @@ body {
 
 .progress {
     width: 100%;
-    accent-color: white;
+    height: 6px;
     margin-top: 12px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0;
+    display: block;
+    accent-color: var(--theme-accent, #f7c8d8);
 }
+
 
 .controls {
     display: flex;
@@ -443,10 +449,12 @@ input:focus {
         font-size: 13px;
     }
 
-    .progress {
-        height: 30px;
-        margin-top: 10px;
-    }
+   .progress {
+    height: 30px;
+    margin-top: 10px;
+    padding: 0;
+}
+
 
     .controls {
         gap: 8px;

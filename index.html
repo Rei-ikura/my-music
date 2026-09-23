@@ -714,10 +714,11 @@ input::placeholder {
     display: flex;
     gap: 8px;
     padding: 12px 24px;
-    background: #101218;
-    border-top: 1px solid #292e38;
-    border-bottom: 1px solid #292e38;
+    background: var(--theme-section, #fff0f5);
+    border-top: 1px solid var(--theme-border, #f1d2dc);
+    border-bottom: 1px solid var(--theme-border, #f1d2dc);
 }
+
 
 .tab {
     flex: 1;
@@ -725,10 +726,11 @@ input::placeholder {
     border-radius: 12px;
     padding: 12px;
     background: transparent;
-    color: #8f97a8;
+    color: var(--theme-accent-text, #3a2830);
     font-weight: 700;
     cursor: pointer;
 }
+
 
 .tab.active {
     background: var(--theme-accent, #f7c8d8);
